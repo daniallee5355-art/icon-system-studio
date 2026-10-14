@@ -1,0 +1,8 @@
+node_modules/
+dist/
+# npm run data 로 다시 만드는 결과물
+src/generated/
+public/sets/
+
+# 로컬 도구 설정
+.claude/
