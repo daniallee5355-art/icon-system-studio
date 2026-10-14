@@ -92,6 +92,12 @@ code, .mono { font-family: var(--f-mono); font-size: .92em; }
   background: var(--surface); cursor: pointer; white-space: nowrap; min-width: 0;
 }
 .sys-chip:hover { border-color: var(--accent); }
+.top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; max-width: 100%; }
+.manual-link {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  padding: 8px 12px; border-radius: 999px; color: var(--ink-2); text-decoration: none; font-size: 13px; font-weight: 500;
+}
+.manual-link:hover { background: var(--surface); color: var(--accent); }
 .sys-chip .ic { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
 .sys-chip .sys-name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .sys-chip .mono { color: var(--ink-2); font-size: 12px; }

@@ -71,6 +71,15 @@ npm run data
 npm test
 ```
 
+## 사용설명서
+
+앱 상단의 **사용설명서** 링크로 PDF(`public/manual.pdf`)를 엽니다. 원본은 `docs/manual-src/manual.html`이고, 화면이 바뀌면 PowerShell에서 다시 만듭니다.
+
+```powershell
+.\scripts\build-manual.ps1 -Screenshots   # 공개 사이트에서 화면을 다시 찍고 PDF 생성
+.\scripts\build-manual.ps1                # 글만 고쳤을 때 PDF만 다시 생성
+```
+
 ## 스크립트
 
 | 명령 | 설명 |

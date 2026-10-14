@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Icon System Studio 사용설명서</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&display=block">
+<style>
+/* 인쇄용 A4 설명서. 앱과 같은 키라인 마젠타를 강조색으로 쓴다 */
+:root {
+  --ink: #17171F; --ink-2: #4E4E5E; --ink-3: #8C8C9C;
+  --line: #DCDCE4; --soft: #F3F3F6;
+  --accent: #C2185B; --accent-soft: #FBE4EE; --warn: #A3610B; --warn-soft: #FBF0DE;
+  --f: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --mono: "IBM Plex Mono", Consolas, monospace;
+}
+@page { size: A4; margin: 14mm 16mm 16mm; }
+@page :first { margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #fff; color: var(--ink); }
+body { font: 10.5pt/1.65 var(--f); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+h1, h2, h3, p, ul, ol { margin: 0; }
+code, .mono { font-family: var(--mono); font-size: .9em; }
+b { font-weight: 700; }
+
+.page { break-after: page; position: relative; }
+.page:last-child { break-after: auto; }
+
+/* 표지 */
+.cover { height: 297mm; padding: 34mm 22mm 24mm; display: flex; flex-direction: column; background: var(--soft); }
+.cover .mark { width: 30mm; height: 30mm; color: var(--accent); }
+.cover .eyebrow { margin-top: 26mm; font-size: 12pt; font-weight: 500; letter-spacing: .12em; color: var(--accent); }
+.cover h1 { font-size: 36pt; line-height: 1.15; letter-spacing: -.02em; margin-top: 4mm; }
+.cover .sub { font-size: 15pt; color: var(--ink-2); margin-top: 5mm; }
+.cover .addr { margin-top: 18mm; background: #fff; border: 1px solid var(--line); border-radius: 4mm; padding: 7mm 8mm; }
+.cover .addr .label { font-size: 9pt; color: var(--ink-3); letter-spacing: .06em; }
+.cover .addr .url { font-family: var(--mono); font-size: 12.5pt; color: var(--accent); margin-top: 2mm; word-break: break-all; }
+.cover .addr p { margin-top: 3mm; font-size: 10pt; color: var(--ink-2); }
+.cover .foot { margin-top: auto; display: flex; justify-content: space-between; font-size: 9.5pt; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 4mm; }
+
+/* 본문 공통 */
+.head { display: flex; align-items: center; gap: 4mm; padding-bottom: 3mm; border-bottom: 2px solid var(--ink); margin-bottom: 5mm; }
+.head .num { font-family: var(--mono); font-size: 11pt; font-weight: 500; color: #fff; background: var(--accent); border-radius: 2mm; padding: 1mm 2.6mm; }
+.head h2 { font-size: 19pt; letter-spacing: -.01em; }
+.head .opt { margin-left: auto; font-size: 9pt; color: var(--ink-3); border: 1px solid var(--line); border-radius: 99px; padding: .6mm 3mm; }
+.when { display: flex; gap: 3mm; align-items: baseline; background: var(--soft); border-radius: 2.5mm; padding: 3mm 4mm; margin-bottom: 5mm; font-size: 10.5pt; }
+.when b { color: var(--accent); white-space: nowrap; }
+.lead { font-size: 11pt; color: var(--ink-2); margin-bottom: 5mm; }
+h3 { font-size: 12.5pt; margin: 6mm 0 2.5mm; }
+
+/* 스크린샷 + 번호 표시 */
+.shot { border: 1px solid var(--line); border-radius: 2.5mm; overflow: hidden; margin-bottom: 5mm; }
+.shot .crop { overflow: hidden; }
+.shot .frame { position: relative; }
+.shot img { display: block; width: 100%; }
+.pin {
+  position: absolute; transform: translate(-50%, -50%);
+  width: 6.4mm; height: 6.4mm; border-radius: 50%;
+  background: var(--accent); color: #fff; font: 700 9.5pt/6.4mm var(--f); text-align: center;
+  box-shadow: 0 0 0 .8mm #fff, 0 .6mm 2mm rgba(0,0,0,.25);
+}
+.ring { position: absolute; border: .6mm solid var(--accent); border-radius: 2mm; }
+
+/* 번호 설명 */
+.steps { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 2.6mm; }
+.steps li { display: grid; grid-template-columns: 7mm 1fr; gap: 2.5mm; align-items: start; }
+.steps .n { width: 6mm; height: 6mm; border-radius: 50%; background: var(--accent); color: #fff; font: 700 9pt/6mm var(--f); text-align: center; margin-top: .5mm; }
+.btn { display: inline-block; font-size: .92em; font-weight: 500; border: 1px solid var(--line); border-radius: 1.5mm; padding: 0 1.6mm; background: #fff; white-space: nowrap; }
+.btn.pri { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.tip { margin-top: 5mm; border-left: 1.2mm solid var(--accent); background: var(--accent-soft); border-radius: 0 2.5mm 2.5mm 0; padding: 3mm 4.5mm; font-size: 10pt; }
+.tip b:first-child { color: var(--accent); margin-right: 1.5mm; }
+.tip p + p { margin-top: 1.5mm; }
+.warnbox { background: var(--warn-soft); border-left-color: var(--warn); }
+.warnbox b:first-child { color: var(--warn); }
+
+/* 개요 카드 */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; margin: 5mm 0 2mm; }
+.card { border: 1px solid var(--line); border-radius: 3mm; padding: 4.5mm; }
+.card .k { font-size: 9pt; font-weight: 500; color: var(--accent); letter-spacing: .08em; }
+.card h4 { font-size: 13pt; margin: 1mm 0 1.5mm; }
+.card p { font-size: 9.6pt; color: var(--ink-2); line-height: 1.55; }
+.start { list-style: none; padding: 0; display: grid; gap: 2mm; }
+.start li { display: grid; grid-template-columns: 6mm 1fr; gap: 2mm; }
+.start li::before { content: "✓"; color: var(--accent); font-weight: 700; }
+
+/* 사용 순서 */
+.flow { display: flex; flex-direction: column; gap: 0; margin-top: 4mm; }
+.flow .row { display: grid; grid-template-columns: 16mm 1fr; gap: 5mm; padding: 5mm 0; border-bottom: 1px dashed var(--line); }
+.flow .row:last-child { border-bottom: 0; }
+.flow .big { font-family: var(--mono); font-size: 22pt; font-weight: 500; color: var(--accent); line-height: 1; }
+.flow h4 { font-size: 13.5pt; }
+.flow h4 span { font-size: 9.5pt; font-weight: 500; color: var(--ink-3); margin-left: 2mm; font-family: var(--mono); }
+.flow p { color: var(--ink-2); margin-top: 1mm; }
+
+/* 표 */
+table { width: 100%; border-collapse: collapse; font-size: 9.8pt; margin-top: 2mm; }
+th, td { text-align: left; vertical-align: top; padding: 2.4mm 3mm; border-bottom: 1px solid var(--line); }
+th { font-size: 8.8pt; font-weight: 500; color: var(--ink-3); letter-spacing: .04em; background: var(--soft); }
+td:first-child { font-weight: 700; white-space: nowrap; }
+
+/* FAQ */
+.faq { display: flex; flex-direction: column; gap: 4mm; }
+.faq .q { font-weight: 700; display: grid; grid-template-columns: 7mm 1fr; }
+.faq .q::before { content: "Q"; color: var(--accent); font-family: var(--mono); }
+.faq .a { display: grid; grid-template-columns: 7mm 1fr; color: var(--ink-2); margin-top: .8mm; }
+.faq .a::before { content: "A"; color: var(--ink-3); font-family: var(--mono); }
+.faq > div { break-inside: avoid; }
+
+.terms { display: grid; grid-template-columns: 36mm 1fr; gap: 0; border-top: 1px solid var(--line); }
+.terms dt, .terms dd { margin: 0; padding: 2.6mm 0; border-bottom: 1px solid var(--line); }
+.terms dt { font-weight: 700; }
+.terms dd { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<!-- 표지 -->
+<section class="page cover">
+  <svg class="mark" viewBox="0 0 34 34" aria-hidden="true">
+    <rect x="1" y="1" width="32" height="32" rx="7" fill="#fff" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M5 1v32M29 1v32M1 5h32M1 29h32" stroke="currentColor" stroke-width=".6" opacity=".45"/>
+    <circle cx="17" cy="17" r="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <rect x="8" y="8" width="18" height="18" fill="none" stroke="currentColor" stroke-width=".6" opacity=".6"/>
+  </svg>
+  <div class="eyebrow">사용설명서</div>
+  <h1>Icon System Studio</h1>
+  <p class="sub">팀이 쓸 아이콘을 고르고, 맞추고, 나누는 도구</p>
+  <div class="addr">
+    <div class="label">사이트 주소</div>
+    <div class="url">https://daniallee5355-art.github.io/icon-system-studio/</div>
+    <p>설치나 로그인 없이 브라우저(크롬·엣지·사파리)에서 바로 열려요. 휴대폰에서도 볼 수 있어요.</p>
+  </div>
+  <div class="foot"><span>버전 0.1</span><span>2026년 10월</span></div>
+</section>
+
+<!-- 개요 -->
+<section class="page">
+  <div class="head"><h2>이런 도구예요</h2></div>
+  <p class="lead">아이콘 라이브러리는 종류가 많고 생김새가 조금씩 달라요. 한 화면에 여러 세트가 섞이면 선 굵기와 모양이 어긋나 보이죠. Icon System Studio는 무료 아이콘 세트 9개를 나란히 비교해서 <b>우리 팀이 쓸 세트를 하나</b> 정하고, 그 결정을 개발자가 바로 쓸 수 있는 코드로 바꿔 줘요.</p>
+  <div class="cards">
+    <div class="card"><div class="k">고르기</div><h4>세트 정하기</h4><p>프로젝트 조건에 맞는 세트를 추천받고, 같은 아이콘을 9개 세트로 나란히 비교해요.</p></div>
+    <div class="card"><div class="k">맞추기</div><h4>규칙 정하기</h4><p>아이콘 크기, 선 굵기, 선택됐을 때의 모양과 색을 팀 규칙으로 정해요.</p></div>
+    <div class="card"><div class="k">나누기</div><h4>팀과 공유하기</h4><p>링크나 파일로 팀원과 나누고, 개발자에게 넘길 코드를 바로 복사해요.</p></div>
+  </div>
+
+  <h3>시작하기</h3>
+  <ul class="start">
+    <li><span>표지의 주소를 브라우저 주소창에 넣으면 바로 열려요.</span></li>
+    <li><span>고른 설정은 <b>지금 쓰는 브라우저에 자동으로 저장</b>돼요. 다음에 열어도 그대로 있어요.</span></li>
+    <li><span>다른 컴퓨터로 옮기거나 팀원에게 보낼 때는 <b>공유 링크</b>를 써요 (9쪽).</span></li>
+  </ul>
+
+  <h3>화면 구성</h3>
+  <div class="shot"><div class="crop" style="height:62mm"><div class="frame">
+    <img src="img/recommend.png" alt="">
+    <span class="pin" style="left:69%;top:4.2%">1</span>
+    <span class="pin" style="left:57%;top:10.2%">2</span>
+    <span class="pin" style="left:27.6%;top:17.4%">3</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span><b>현재 시스템</b>: 지금 정한 세트 이름, 크기, 선 굵기가 보여요. 누르면 내보내기 · 공유 화면으로 가요.</span></li>
+    <li><span class="n">2</span><span><b>탭</b>: 01부터 06까지 차례대로 진행하면 돼요. 맨 끝 ‘라이선스’에는 아이콘 저작권 정보가 있어요.</span></li>
+    <li><span class="n">3</span><span><b>작업 화면</b>: 고른 탭의 내용이 여기에 나와요.</span></li>
+  </ol>
+</section>
+
+<!-- 사용 순서 -->
+<section class="page">
+  <div class="head"><h2>이 순서로 하면 돼요</h2></div>
+  <p class="lead">처음이라면 아래 다섯 단계만 따라 하세요. 단계마다 자세한 설명은 다음 쪽부터 있어요.</p>
+  <div class="flow">
+    <div class="row"><div class="big">1</div><div><h4>추천받기<span>01 추천 · 4쪽</span></h4><p>우리 프로젝트 조건을 고르고, 1순위로 나온 세트를 지정해요.</p></div></div>
+    <div class="row"><div class="big">2</div><div><h4>눈으로 비교하기<span>02 비교 · 5쪽</span></h4><p>같은 아이콘이 세트마다 어떻게 다른지 확인하고, 크기와 선 굵기를 맞춰 봐요.</p></div></div>
+    <div class="row"><div class="big">3</div><div><h4>선택 상태 확인하기<span>03 상태 미리보기 · 6쪽</span></h4><p>메뉴나 버튼을 눌렀을 때 아이콘이 어떻게 바뀌는지 직접 눌러 봐요.</p></div></div>
+    <div class="row"><div class="big">4</div><div><h4>필요한 아이콘 더 찾기<span>05 전체 검색 · 8쪽</span></h4><p>기본 목록에 없는 아이콘이 있으면 찾아서 팀 목록에 추가해요.</p></div></div>
+    <div class="row"><div class="big">5</div><div><h4>팀과 나누기<span>06 내보내기 · 공유 · 9쪽</span></h4><p>팀원에게는 공유 링크를, 개발자에게는 코드를 넘겨요.</p></div></div>
+  </div>
+  <div class="tip"><b>참고</b>‘04 가변 폰트’ 탭은 구글의 Material Symbols를 쓸 때만 보면 돼요 (7쪽).</div>
+</section>
+
+<!-- 01 추천 -->
+<section class="page">
+  <div class="head"><span class="num">01</span><h2>추천</h2></div>
+  <div class="when"><b>언제 쓰나요?</b><span>어떤 아이콘 세트를 쓸지 아직 정하지 못했을 때</span></div>
+  <div class="shot"><div class="crop" style="height:112mm"><div class="frame">
+    <img src="img/recommend.png" alt="">
+    <span class="pin" style="left:2.1%;top:29.7%">1</span>
+    <span class="pin" style="left:32.6%;top:29.9%">2</span>
+    <span class="pin" style="left:88%;top:36%">3</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span>왼쪽에서 우리 프로젝트에 맞는 조건을 하나씩 눌러요. 프레임워크, CSS, 제품 성격, 선택 상태 표현, 아이콘 크기, 필요한 어휘, 라이선스 순서예요. 잘 모르는 항목은 그대로 두어도 돼요.</span></li>
+    <li><span class="n">2</span><span>오른쪽에 점수가 높은 세트부터 나와요. 회색 줄은 이 세트를 추천하는 이유, <b style="color:var(--warn)">주황색 줄</b>은 주의할 점이에요.</span></li>
+    <li><span class="n">3</span><span>마음에 드는 세트의 <span class="btn pri">이 세트로 지정</span>을 누르면 우리 팀의 <b>허용 세트</b>가 돼요. 오른쪽 위 ‘현재 시스템’에 이름이 바뀌어 보여요.</span></li>
+  </ol>
+  <div class="tip"><b>팁</b>화면을 아래로 내리면 ‘라이브러리 사양’ 표가 있어요. 세트별 아이콘 수, 스타일, 라이선스를 한눈에 비교할 수 있어요.</div>
+</section>
+
+<!-- 02 비교 -->
+<section class="page">
+  <div class="head"><span class="num">02</span><h2>비교</h2></div>
+  <div class="when"><b>언제 쓰나요?</b><span>세트마다 아이콘 모양이 어떻게 다른지 직접 보고 싶을 때</span></div>
+  <div class="shot"><div class="crop"><div class="frame">
+    <img src="img/compare.png" alt="">
+    <span class="pin" style="left:1.6%;top:29.6%">1</span>
+    <span class="pin" style="left:12.6%;top:40.8%">2</span>
+    <span class="pin" style="left:12.6%;top:52%">3</span>
+    <span class="pin" style="left:74.4%;top:29.6%">4</span>
+    <span class="pin" style="left:74.4%;top:97.4%">5</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span>위쪽에서 <b>크기</b>(16~32px), <b>상태</b>(기본·활성), <b>선 굵기</b>를 바꿔 봐요. ‘활성’을 누르면 선택됐을 때 쓰는 채워진 모양이 보여요.</span></li>
+    <li><span class="n">2</span><span>세트 이름(열 머리)을 누르면 그 세트가 허용 세트가 돼요. <b>분홍색 열</b>이 지금 고른 세트예요.</span></li>
+    <li><span class="n">3</span><span>아이콘 칸을 하나 누르면</span></li>
+    <li><span class="n">4</span><span>오른쪽에 크게 확대돼요. 분홍 선은 아이콘 크기를 맞추는 기준 격자(키라인)예요. 그 아래에서 실제 크기 16·20·24·32px로도 확인할 수 있어요.</span></li>
+    <li><span class="n">5</span><span><span class="btn">이름 복사</span> <span class="btn">SVG 복사</span>로 아이콘을 디자인 툴이나 코드에 바로 붙여 넣을 수 있어요.</span></li>
+  </ol>
+  <div class="tip"><b>팁</b>칸 오른쪽 위에 <b style="color:var(--warn)">주황색 작은 동그라미</b>가 있으면 그 세트에는 채워진 모양이 없다는 뜻이에요. 찾기 칸에는 ‘알림’처럼 한글로 써도 돼요.</div>
+</section>
+
+<!-- 03 상태 미리보기 -->
+<section class="page">
+  <div class="head"><span class="num">03</span><h2>상태 미리보기</h2></div>
+  <div class="when"><b>언제 쓰나요?</b><span>메뉴나 버튼을 눌렀을 때 아이콘이 어떻게 바뀌는지 확인할 때</span></div>
+  <div class="shot"><div class="crop" style="height:118mm"><div class="frame">
+    <img src="img/states.png" alt="">
+    <span class="pin" style="left:1.2%;top:28.4%">1</span>
+    <span class="pin" style="left:2.6%;top:39.9%">2</span>
+    <span class="pin" style="left:2.6%;top:69%">3</span>
+    <span class="pin" style="left:56.3%;top:79.4%">4</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span>위에서 세트를 고르면 아래 미리보기가 바로 바뀌어요. 여기서 고른 세트도 허용 세트가 돼요.</span></li>
+    <li><span class="n">2</span><span>사이드바 메뉴, 모바일 탭바, 토글 버튼을 직접 눌러 보세요. 선택된 항목은 분홍색이 되고, 세트에 따라 아이콘이 채워진 모양으로 바뀌어요.</span></li>
+    <li><span class="n">3</span><span><b style="color:var(--warn)">‘Fill 없음’</b> 표시는 그 세트에 채워진 모양이 없어서 색으로만 구분된다는 뜻이에요.</span></li>
+    <li><span class="n">4</span><span><b>Fill 대응률</b>: 세트마다 채워진 모양을 얼마나 갖췄는지 막대로 비교해요. 막대가 길수록 선택 상태를 표현하기 쉬워요.</span></li>
+  </ol>
+  <div class="tip"><b>팁</b>Lucide처럼 Fill 대응률이 0인 세트도 쓸 수 있어요. 대신 선택된 메뉴는 색과 배경으로 분명하게 구분해 주세요.</div>
+</section>
+
+<!-- 04 가변 폰트 -->
+<section class="page">
+  <div class="head"><span class="num">04</span><h2>가변 폰트</h2><span class="opt">필요할 때만</span></div>
+  <div class="when"><b>언제 쓰나요?</b><span>구글의 Material Symbols 아이콘을 쓰거나 검토할 때</span></div>
+  <div class="shot"><div class="crop" style="height:112mm"><div class="frame">
+    <img src="img/variable.png" alt="">
+    <span class="pin" style="left:1.3%;top:29.8%">1</span>
+    <span class="pin" style="left:56.8%;top:22.8%">2</span>
+    <span class="pin" style="left:29.4%;top:55.2%">3</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span>슬라이더 네 개로 <b>채움</b>(Fill), <b>굵기</b>(Weight), <b>미세 굵기</b>(Grade), <b>크기 보정</b>(Optical size)을 바꿔요. 위쪽 큰 미리보기에서 밝은 배경과 어두운 배경을 함께 볼 수 있어요.</span></li>
+    <li><span class="n">2</span><span>‘기본’, ‘활성’, ‘강조’, ‘다크 모드 보정’ 같은 버튼을 누르면 자주 쓰는 값이 한 번에 들어가요.</span></li>
+    <li><span class="n">3</span><span>아래 아이콘에 마우스를 올리면 빈 모양이 채운 모양으로 부드럽게 바뀌어요. 누르면 큰 미리보기에 나와요.</span></li>
+  </ol>
+  <div class="tip"><b>팁</b>맨 아래 CSS 코드를 <span class="btn">복사</span>해서 개발자에게 주면 화면에서 본 모양이 그대로 나와요. 어두운 배경에서는 Grade를 −25 정도로 낮추면 아이콘이 번져 보이지 않아요.</div>
+</section>
+
+<!-- 05 전체 검색 -->
+<section class="page">
+  <div class="head"><span class="num">05</span><h2>전체 검색</h2></div>
+  <div class="when"><b>언제 쓰나요?</b><span>기본 목록(85개)에 없는 아이콘이 필요할 때</span></div>
+  <div class="shot"><div class="crop" style="height:104mm"><div class="frame">
+    <img src="img/search.png" alt="">
+    <span class="pin" style="left:1.2%;top:28.4%">1</span>
+    <span class="pin" style="left:2.6%;top:38.5%">2</span>
+    <span class="pin" style="left:2.6%;top:48.8%">3</span>
+    <span class="pin" style="left:73.8%;top:35.5%">4</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span>찾을 세트를 골라요. ‘<b>허용 세트</b>’라고 쓰인 것이 지금 우리 팀 세트예요. 세트를 처음 고를 때는 아이콘을 내려받느라 몇 초 걸려요.</span></li>
+    <li><span class="n">2</span><span>영어 이름(예: <code>receipt</code>, <code>chart pie</code>)이나 한글(예: 알림)로 찾아요.</span></li>
+    <li><span class="n">3</span><span>원하는 아이콘을 누르면</span></li>
+    <li><span class="n">4</span><span>오른쪽에서 크게 보여요. <b>의미 키</b>(예: <code>invoice</code>)와 한글 이름(예: 청구서)을 적고 <span class="btn pri">추가</span>를 누르면 팀 아이콘 목록에 들어가요. 그 아래 ‘팀이 바꾸거나 더한 항목’에서 확인하고 뺄 수도 있어요.</span></li>
+  </ol>
+  <div class="tip">
+    <p><b>팁</b>이미 있는 의미 키(예: <code>settings</code>)를 그대로 쓰면, 그 아이콘이 새로 고른 아이콘으로 바뀌어요.</p>
+    <p>허용 세트가 아닌 다른 세트의 아이콘은 섞이지 않도록 추가할 수 없어요. 비교용으로만 볼 수 있어요.</p>
+  </div>
+</section>
+
+<!-- 06 내보내기 · 공유 -->
+<section class="page">
+  <div class="head"><span class="num">06</span><h2>내보내기 · 공유</h2></div>
+  <div class="when"><b>언제 쓰나요?</b><span>정한 내용을 팀원과 나누거나 개발자에게 넘길 때</span></div>
+  <div class="shot"><div class="crop" style="height:96mm"><div class="frame">
+    <img src="img/share.png" alt="">
+    <span class="pin" style="left:86.4%;top:19.6%">1</span>
+    <span class="pin" style="left:1.4%;top:62.8%">2</span>
+    <span class="pin" style="left:1.4%;top:67.6%">3</span>
+    <span class="pin" style="left:1.4%;top:72.5%">4</span>
+    <span class="pin" style="left:91%;top:40%">5</span>
+  </div></div></div>
+  <ol class="steps">
+    <li><span class="n">1</span><span>공유 링크로 들어오면 맨 위에 안내가 떠요. <span class="btn pri">적용</span>을 누르면 받은 설정으로 바뀌고, <span class="btn">무시</span>를 누르면 지금 설정을 그대로 둬요.</span></li>
+    <li><span class="n">2</span><span><span class="btn pri">icon-system.json 내려받기</span>: 우리 팀 결정이 담긴 파일을 저장해요.</span></li>
+    <li><span class="n">3</span><span><span class="btn">파일에서 불러오기</span>: 받은 파일을 열어 같은 설정을 불러와요.</span></li>
+    <li><span class="n">4</span><span><span class="btn">공유 링크 복사</span>: 링크 하나로 보내요. 메신저나 메일에 붙여 넣으면 돼요.</span></li>
+    <li><span class="n">5</span><span>오른쪽 코드 상자는 개발자에게 넘길 코드예요. <span class="btn">복사</span>나 <span class="btn">내려받기</span>로 전달하세요.</span></li>
+  </ol>
+  <h3>팀과 나누는 두 가지 방법</h3>
+  <table>
+    <tr><th>방법</th><th>이럴 때 좋아요</th><th>받는 사람은</th></tr>
+    <tr><td>공유 링크</td><td>빠르게 보여 주거나 의견을 물을 때</td><td>링크를 열고 <span class="btn pri">적용</span></td></tr>
+    <tr><td>icon-system.json 파일</td><td>팀의 공식 기준으로 오래 보관할 때 (공유 폴더나 저장소에 보관)</td><td><span class="btn">파일에서 불러오기</span>로 열기</td></tr>
+  </table>
+  <div class="tip"><b>팁</b>왼쪽 아래에서 허용 세트, 프레임워크, 크기 단계, 활성 색도 바꿀 수 있어요. 바꾸면 오른쪽 코드가 바로 따라 바뀌어요.</div>
+</section>
+
+<!-- 자주 묻는 질문 -->
+<section class="page">
+  <div class="head"><h2>자주 묻는 질문</h2></div>
+  <div class="faq">
+    <div><p class="q"><span>어제 정한 설정이 사라졌어요.</span></p>
+      <p class="a"><span>설정은 그때 쓴 브라우저에만 저장돼요. 다른 브라우저, 다른 컴퓨터, 시크릿 창에서는 보이지 않아요. 중요한 결정은 <b>icon-system.json</b>으로 내려받아 두세요.</span></p></div>
+    <div><p class="q"><span>다른 컴퓨터에서도 같은 설정을 쓰고 싶어요.</span></p>
+      <p class="a"><span>06 탭에서 <span class="btn">공유 링크 복사</span>를 누르고, 다른 컴퓨터에서 그 링크를 연 뒤 <span class="btn pri">적용</span>을 누르세요.</span></p></div>
+    <div><p class="q"><span>04 가변 폰트 탭에 아이콘 대신 영어 글자(home 등)가 보여요.</span></p>
+      <p class="a"><span>회사 네트워크가 구글 폰트를 막고 있을 수 있어요. 다른 탭은 정상으로 쓸 수 있어요. 집이나 다른 네트워크에서 확인해 보세요.</span></p></div>
+    <div><p class="q"><span>전체 검색에서 <span class="btn pri">추가</span> 버튼이 안 보여요.</span></p>
+      <p class="a"><span>허용 세트가 아닌 세트를 보고 있어서 그래요. 위에서 ‘허용 세트’ 표시가 있는 세트를 고르세요.</span></p></div>
+    <div><p class="q"><span>사이트가 열리지 않아요.</span></p>
+      <p class="a"><span>인터넷 연결을 확인하세요. 회사망에서는 <code>github.io</code> 주소가 막혀 있을 수 있으니 전산팀에 문의하세요. 인터넷 익스플로러는 지원하지 않아요.</span></p></div>
+    <div><p class="q"><span>여기 있는 아이콘을 회사 제품에 써도 되나요?</span></p>
+      <p class="a"><span>9개 세트 모두 상업적으로 쓸 수 있어요. 제품에 넣을 때는 ‘라이선스’ 탭의 고지문을 제품의 오픈소스 고지 화면에 함께 넣어 주세요.</span></p></div>
+  </div>
+  <div class="tip warnbox"><b>주의</b>공유 링크와 icon-system.json에는 팀의 아이콘 설정만 들어 있어요. 개인 정보는 들어가지 않지만, 링크를 받은 사람은 누구나 같은 설정을 볼 수 있어요.</div>
+</section>
+
+<!-- 용어 풀이 -->
+<section class="page">
+  <div class="head"><h2>용어 풀이</h2></div>
+  <dl class="terms">
+    <dt>허용 세트</dt><dd>우리 팀이 쓰기로 정한 아이콘 세트 하나예요. 화면에 여러 세트가 섞이지 않게 해 줘요.</dd>
+    <dt>활성 상태 · Fill</dt><dd>메뉴나 버튼이 선택됐을 때의 모양이에요. 보통 속이 채워진(Fill) 아이콘을 써요.</dd>
+    <dt>선 굵기 (stroke)</dt><dd>선으로 그린 아이콘의 선 두께예요. Lucide, Heroicons, Tabler, Iconoir만 조절돼요.</dd>
+    <dt>키라인</dt><dd>아이콘 크기와 여백을 맞추는 기준 격자예요. 비교 탭의 확대 화면에 분홍 선으로 보여요.</dd>
+    <dt>의미 키</dt><dd>아이콘을 부르는 영어 이름표예요. 예: <code>home</code>, <code>settings</code>, <code>invoice</code></dd>
+    <dt>icon-map</dt><dd>의미 키와 실제 아이콘을 짝지은 목록이에요. 개발자는 이 목록으로 아이콘을 불러요.</dd>
+    <dt>icon-system.json</dt><dd>우리 팀의 결정(세트, 크기, 선 굵기, 색, 추가한 아이콘)을 담은 파일이에요.</dd>
+    <dt>디자인 토큰</dt><dd>크기나 색 같은 값에 붙인 이름이에요. 예: <code>--icon-size-md: 24px</code></dd>
+  </dl>
+  <h3>9개 아이콘 세트</h3>
+  <p style="color:var(--ink-2)">Lucide · Heroicons · Phosphor · Tabler · Remix Icon · IBM Carbon · Iconoir · Material Symbols · Bootstrap Icons. 모두 무료로 쓸 수 있는 오픈소스 세트이고, 저작권자와 라이선스는 앱의 ‘라이선스’ 탭에 정리돼 있어요.</p>
+</section>
+
+</body>
+</html>

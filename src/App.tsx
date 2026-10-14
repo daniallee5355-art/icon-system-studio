@@ -11,6 +11,9 @@ import { Search } from './tabs/Search';
 import { States } from './tabs/States';
 import { VariableFont } from './tabs/VariableFont';
 
+// public/manual.pdf (scripts/build-manual.ps1로 다시 만든다)
+const MANUAL_URL = `${import.meta.env.BASE_URL}manual.pdf`;
+
 const PANELS: Record<Tab, ComponentType> = {
   recommend: Recommend, compare: Compare, states: States, variable: VariableFont, search: Search, export: Export, licenses: Licenses,
 };
@@ -66,11 +69,16 @@ export function App() {
               <p>{LIBS.length}개 라이브러리 · {DATA.concepts.length}개 의미 · 아이콘 {fmt(Object.keys(DATA.icons).length)}개 실측</p>
             </div>
           </div>
-          <button className="sys-chip" onClick={() => setUi({ tab: 'export' })} title="내보내기 · 공유 탭으로 이동">
-            <span className="ic"><Icon k={iconKey(conceptById.settings, sys.set, 'base')} size={16} /></span>
-            <span className="sys-name">{sys.name}</span>
-            <span className="mono">{LIB[sys.set].label} · {ui.size}px{sw ? ` · stroke ${sw}` : ''}</span>
-          </button>
+          <div className="top-actions">
+            <a className="manual-link" href={MANUAL_URL} target="_blank" rel="noreferrer" title="사용설명서 PDF를 새 탭에서 엽니다">
+              <Icon k="lucide:file-text" size={16} />사용설명서
+            </a>
+            <button className="sys-chip" onClick={() => setUi({ tab: 'export' })} title="내보내기 · 공유 탭으로 이동">
+              <span className="ic"><Icon k={iconKey(conceptById.settings, sys.set, 'base')} size={16} /></span>
+              <span className="sys-name">{sys.name}</span>
+              <span className="mono">{LIB[sys.set].label} · {ui.size}px{sw ? ` · stroke ${sw}` : ''}</span>
+            </button>
+          </div>
         </div>
         <nav className="tabs" role="tablist" aria-label="작업 단계">
           {TABS.map((t) => (
@@ -104,6 +112,7 @@ export function App() {
         <Panel />
         <footer>
           <span>데이터: @iconify-json 패키지, {DATA.generated} 빌드</span>
+          <a className="linkish" href={MANUAL_URL} target="_blank" rel="noreferrer">사용설명서 (PDF)</a>
           <button className="linkish" onClick={() => setUi({ tab: 'licenses' })}>아이콘 라이선스</button>
         </footer>
       </main>
