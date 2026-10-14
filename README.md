@@ -1,6 +1,8 @@
 # Icon System Studio
 
 팀이 쓸 아이콘 세트를 고르고, 그 결정을 코드 규칙으로 고정하는 도구입니다.
+
+**사이트:** https://daniallee5355-art.github.io/icon-system-studio/
 Lucide · Heroicons · Phosphor · Tabler · Remix Icon · IBM Carbon · Iconoir · Material Symbols · Bootstrap Icons 9개 세트를 실제 SVG로 비교합니다.
 
 | 탭 | 하는 일 |
@@ -35,7 +37,11 @@ Windows에서는 폴더의 `start.bat`을 더블클릭해도 됩니다. 서버�
 
 결정 사항은 각자의 브라우저(localStorage)에도 저장되지만, 팀의 기준은 저장소에 커밋한 icon-system.json입니다.
 
-## 배포 (사내 공유용)
+## 배포
+
+main 브랜치에 올리면 GitHub Actions가 테스트·빌드 후 GitHub Pages에 자동으로 배포합니다 (.github/workflows/deploy.yml).
+
+### 다른 곳에 올릴 때
 
 ```bash
 npm run build
