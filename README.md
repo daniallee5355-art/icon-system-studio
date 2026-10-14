@@ -39,7 +39,7 @@ Windows에서는 폴더의 `start.bat`을 더블클릭해도 됩니다. 서버�
 
 ## 배포
 
-main 브랜치에 올리면 GitHub Actions가 테스트·빌드 후 GitHub Pages에 자동으로 배포합니다 (.github/workflows/deploy.yml).
+`main` 브랜치에 올리면 GitHub Actions가 테스트·빌드 후 GitHub Pages에 자동으로 배포합니다 (`.github/workflows/deploy.yml`).
 
 ### 다른 곳에 올릴 때
 
